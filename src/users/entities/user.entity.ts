@@ -1,7 +1,7 @@
-import {Entity,Column,PrimaryGeneratedColumn,ManyToOne,OneToMany} from 'typeorm';
-
-  
-  @Entity({ name: 'users' })
+import { Order } from 'src/orders/entities/order.entity';
+import { RolesEntity } from 'src/roles/roles.entity';
+import {Entity,Column,PrimaryGeneratedColumn,OneToMany, ManyToOne} from 'typeorm';
+@Entity({ name: 'users' })
   export class UserEntity {
 
     @PrimaryGeneratedColumn()
@@ -12,11 +12,11 @@ import {Entity,Column,PrimaryGeneratedColumn,ManyToOne,OneToMany} from 'typeorm'
   
     @Column()
     password: string;
-
-    @Column()
-    role: boolean;
+    
+    // una persona tiene un rol
+    @ManyToOne(() => RolesEntity, (role) => role.users)
+    role: RolesEntity;
 
     @OneToMany(() => Order, (order) => order.user)
     orders: Order[];
-  
 }
